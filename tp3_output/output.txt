@@ -1,0 +1,177 @@
+TP3 
+============================================================
+DataFrame charge avec succes.
+Apercu :
+                 SE_L  SE_W  PE_L  PE_W      Espece
+i001_SETOSA        50    33    14     2      SETOSA
+i002_VIRGINICA     64    28    56    22   VIRGINICA
+i003_VERSICOLOR    65    28    46    15  VERSICOLOR
+i004_VIRGINICA     67    31    56    24   VIRGINICA
+i005_VIRGINICA     63    28    51    15   VIRGINICA
+
+ Nombre d'individus (fleurs) : 27
+Nombre de variables          : 5
+Noms des variables           : ['SE_L', 'SE_W', 'PE_L', 'PE_W', 'Espece']
+
+ Statistiques elementaires globales 
+            SE_L       SE_W       PE_L       PE_W
+count  27.000000  27.000000  27.000000  27.000000
+mean   61.037037  30.481481  44.703704  15.814815
+std     8.026310   3.641327  16.330281   7.311935
+min    46.000000  22.000000  10.000000   2.000000
+25%    56.500000  28.000000  45.000000  13.500000
+50%    62.000000  30.000000  51.000000  17.000000
+75%    66.000000  33.000000  54.500000  22.000000
+max    77.000000  38.000000  67.000000  25.000000
+
+ Statistiques par espece 
+
+== SETOSA ==
+            SE_L      SE_W      PE_L     PE_W
+count   5.000000   5.00000   5.00000  5.00000
+mean   49.600000  34.20000  13.60000  2.80000
+std     3.781534   1.30384   2.50998  1.30384
+min    46.000000  33.00000  10.00000  2.00000
+25%    46.000000  33.00000  13.00000  2.00000
+50%    50.000000  34.00000  14.00000  2.00000
+75%    51.000000  35.00000  14.00000  3.00000
+max    55.000000  36.00000  17.00000  5.00000
+
+== VIRGINICA ==
+            SE_L       SE_W       PE_L       PE_W
+count  14.000000  14.000000  14.000000  14.000000
+mean   65.500000  30.500000  55.142857  21.071429
+std     6.892024   3.204564   5.907715   2.894671
+min    49.000000  25.000000  45.000000  15.000000
+25%    63.250000  28.500000  51.250000  19.250000
+50%    66.000000  30.000000  54.500000  22.000000
+75%    67.750000  31.750000  56.750000  23.000000
+max    77.000000  38.000000  67.000000  25.000000
+
+== VERSICOLOR ==
+            SE_L       SE_W       PE_L      PE_W
+count   8.000000   8.000000   8.000000   8.00000
+mean   60.375000  28.125000  45.875000  14.75000
+std     3.020761   3.603074   3.399054   2.12132
+min    56.000000  22.000000  39.000000  11.00000
+25%    58.500000  26.500000  45.000000  13.75000
+50%    60.500000  28.000000  46.000000  15.00000
+75%    62.250000  30.500000  47.250000  16.00000
+max    65.000000  33.000000  51.000000  18.00000
+
+ Interpretation  :
+# PE_L et PE_W ont les plus grands ecarts-types relatifs (CV eleve)
+# => distributions plus dispersees, surtout entre especes
+# SE_W est la variable la moins dispersee globalement
+# La difference de moyenne entre especes est plus marquee pour PE_L et PE_W
+# => ces variables sont probablement plus discriminantes
+
+
+ Graphiques
+Graphe enregistre : hist_density_SE_L_global.png
+Graphe enregistre : boxplots_especes.png
+
+Matrice de correlation :
+       SE_L   SE_W   PE_L   PE_W
+SE_L  1.000  0.020  0.859  0.804
+SE_W  0.020  1.000 -0.261 -0.181
+PE_L  0.859 -0.261  1.000  0.942
+PE_W  0.804 -0.181  0.942  1.000
+
+# INTERPRETATION :
+# PE_L et PE_W sont fortement correlees (r > 0.9) => mesurent la taille du petale
+# SE_L est moyennement correlee avec PE_L et PE_W
+# SE_W est faiblement correlee avec les autres => variable plus independante
+
+
+ Valeurs propres
+  lambda1 = 2.7732
+  lambda2 = 1.0124
+  lambda3 = 0.1749
+  lambda4 = 0.0395
+
+ Vecteurs propres (colonnes = axes factoriels) 
+         PC1     PC2     PC3     PC4
+SE_L -0.5462 -0.2662 -0.7487  0.2651
+SE_W  0.1399 -0.9627  0.1975 -0.1208
+PE_L -0.5915  0.0415  0.1357 -0.7937
+PE_W -0.5764 -0.0240  0.6181  0.5340
+
+ Variance expliquee par axe 
+  PC1 : lambda=2.7732  |  69.33%  |  Cumule: 69.33%
+  PC2 : lambda=1.0124  |  25.31%  |  Cumule: 94.64%
+  PC3 : lambda=0.1749  |  4.37%  |  Cumule: 99.01%
+  PC4 : lambda=0.0395  |  0.99%  |  Cumule: 100.00%
+
+# INTERPRETATION  :
+# Chaque valeur propre lambda_k = variance portee par l'axe factoriel PC_k
+# (variance totale dans l'espace standardise = p = nb de variables = 4)
+#
+# Critere de Kaiser : on retient les axes avec lambda > 1
+# => PC1 et PC2 suffisent (variance cumulee > 94%)
+# => Le s.e.v de projection est de dimension 2 (plan factoriel)
+# => Ce resultat etait previsible car PE_L et PE_W sont fortement correlees :
+#    les 4 variables "originales" n'apportent pas 4 dimensions independantes
+#
+# Pourquoi la matrice de correlation est diagonalisable ?
+# => Elle est symetrique reelle => theoreme spectral garantit la diagonalisation
+# => Ses vecteurs propres forment une base orthonormee de R^p
+#
+# Peut-on avoir un vecteur propre nul ?
+# => NON : par definition Av = lambda*v avec v != 0
+#
+# Peut-on avoir une valeur propre nulle ?
+# => Seulement si det(R) = 0 deux variables parfaitement colineaires (r=1)
+# => r < 1 pour toutes les paires => toutes les valeurs propres > 0
+
+
+  Coordonnees des individus sur les axes principaux 
+
+Coordonnees de 'i027_VIRGINICA' sur les deux premiers axes :
+  PC1 = -1.2789
+  PC2 = -0.0769
+
+ Fleur la plus contributrice sur PC1 :
+  i010_SETOSA  (PC1 = 3.6495)
+
+ Qualite de representation moyenne (plan PC1-PC2) :
+  cos2 moyen = 0.8681 (86.8%)
+
+Qualite de representation de 'i027_VIRGINICA' :
+  cos2(PC1)      = 0.9079
+  cos2(PC2)      = 0.0033
+  cos2(PC1+PC2)  = 0.9112 (91.1%)
+
+# INTERPRETATION qualite de representation :
+# cos2 proche de 1 => individu bien represente sur le plan factoriel
+# cos2 proche de 0 => individu mal represente (proche du centre de gravite)
+# cos2 moyen > 0.85 => projection globalement fiable pour l'echantillon
+
+
+Correlation entre PC1 et PC2 : 0.000000
+
+# INTERPRETATION : correlation PC1/PC2 = 0 (numeriquement)
+# => Les composantes principales sont ORTHOGONALES (non correlees)
+# => Propriete fondamentale de l'ACP : les axes decomposent la variance
+#    sans redondance
+
+
+ INTERPRETATION DES DEUX PREMIERS AXES :
+# PC1 (axe 1) : "taille globale de la fleur"
+#   => Fortement correle avec PE_L, PE_W et SE_L (meme sens positif)
+#   => Separe nettement SETOSA (tres petits petales => PC1 tres negatif)
+#      des especes VERSICOLOR et VIRGINICA
+#
+# PC2 (axe 2) : "contraste sepale / petale"
+#   => Correle positivement avec SE_W, negativement avec PE_L et PE_W
+#   => Permet de distinguer VERSICOLOR et VIRGINICA qui se chevauchent sur PC1
+#
+ CARACTERISTIQUES DISCRIMINANTES DES 3 ESPECES :
+# SETOSA     : PE_L et PE_W tres faibles, SE_W relativement grand
+#              => Groupe isole a gauche sur PC1 (facilement separable)
+# VERSICOLOR : Mesures intermediaires
+#              => Groupe central, chevauchement partiel avec VIRGINICA
+# VIRGINICA  : PE_L, PE_W et SE_L les plus grands
+#              => Groupe a droite sur PC1, SE_W moyen
+
+Tous les fichiers sont dans : ./tp3_output/
